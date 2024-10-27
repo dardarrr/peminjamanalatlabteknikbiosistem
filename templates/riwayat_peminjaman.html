@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsif -->
+    <title>Riwayat Peminjaman</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0; /* Menghapus padding di body */
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Pastikan body mengisi tinggi penuh */
+        }
+
+        h2 {
+            text-align: center;
+            color: #007bff;
+            margin: 20px 0; /* Ruang atas dan bawah untuk judul */
+        }
+
+        .button-container {
+            text-align: right; /* Rata kanan */
+            margin: 10px; /* Margin untuk tombol */
+        }
+
+        .btn {
+            padding: 5px 10px; /* Padding lebih kecil untuk tombol */
+            background-color: #007bff; /* Warna latar belakang untuk tombol */
+            color: white; /* Warna teks untuk tombol */
+            text-decoration: none; /* Menghilangkan garis bawah */
+            border-radius: 4px; /* Sudut tumpul */
+            font-size: 14px; /* Ukuran font tombol */
+        }
+
+        .btn:hover {
+            background-color: #0056b3; /* Warna saat hover */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse; /* Menghilangkan ruang antara border */
+            margin: 20px 0; /* Ruang di atas dan bawah tabel */
+        }
+
+        th, td {
+            border: 1px solid #ddd; /* Border untuk sel */
+            padding: 10px; /* Padding untuk sel */
+            text-align: left; /* Rata kiri untuk teks */
+        }
+
+        th {
+            background-color: #007bff; /* Warna latar belakang header */
+            color: white; /* Warna teks header */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Warna sel genap */
+        }
+
+        tr:hover {
+            background-color: #e1e1e1; /* Warna saat hover */
+        }
+
+        /* Media query untuk tampilan lebih baik pada layar kecil */
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 20px; /* Ukuran font lebih kecil untuk judul */
+            }
+
+            th, td {
+                padding: 8px; /* Padding lebih kecil */
+            }
+
+            .btn {
+                font-size: 12px; /* Ukuran font tombol lebih kecil di layar kecil */
+            }
+        }
+
+        /* Footer tetap di bagian bawah */
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            margin-top: auto; /* Menggunakan auto untuk margin atas footer agar berada di bawah konten */
+            position: relative; /* Mengubah posisi menjadi relatif */
+            bottom: 0; /* Memastikan footer tidak terangkat */
+        }
+    </style>
+</head>
+<body>
+    <h2>Riwayat Peminjaman</h2>
+
+    <div class="button-container">
+        <a href="/dashboard" class="btn">Kembali ke Beranda</a>
+    </div>
+
+    <table border="1">
+        <tr>
+            <th>Nama</th>
+            <th>NIM</th>
+            <th>Jenis Alat</th>
+            <th>Status</th>
+        </tr>
+        {% for item in riwayat %}
+        <tr>
+            <td>{{ item['nama'] }}</td>
+            <td>{{ item['nim'] }}</td>
+            <td>{{ item['jenis_alat'] }}</td>
+            <td>{{ item['status'] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Footer -->
+    <footer>
+        <p>Mhd. Kadar Fitrawan - Teknik Biosistem</p>
+    </footer>
+</body>
+</html>

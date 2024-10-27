@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        /* Memastikan box-sizing diterapkan ke semua elemen */
+        * {
+            box-sizing: border-box;
+        }
+
+        /* Reset untuk html dan body agar tinggi penuh dan tidak ada margin atau padding */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Konten utama agar memenuhi ruang yang tersedia */
+        .content {
+            flex: 1;
+            padding: 20px;
+            text-align: center; /* Memusatkan teks di dalam konten */
+        }
+
+        h1 {
+            margin-bottom: 10px; /* Mengurangi ruang bawah judul utama */
+            font-size: 24px;
+            color: #007bff; /* Warna biru untuk judul */
+        }
+
+        h2 {
+            margin-bottom: 10px; /* Mengurangi ruang bawah untuk sub-judul */
+            color: #333;
+        }
+
+        table {
+            width: 80%; /* Mengubah lebar tabel menjadi 80% dari kontainer */
+            border-collapse: collapse;
+            margin: 20px auto; /* Memusatkan tabel */
+            background-color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .button-container {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            justify-content: center; /* Memusatkan tombol */
+        }
+
+        .button {
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Footer tetap di bagian bawah */
+        footer {
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            width: 100%;
+            position: sticky;
+            bottom: 0;
+        }
+
+        /* Responsif untuk layar kecil */
+        @media (max-width: 600px) {
+            th, td {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            h1, h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Konten utama yang menggunakan class "content" untuk flexbox -->
+    <div class="content">
+        <h1>Peminjaman Alat Laboratorium Teknik Biosistem</h1>
+        <h2>Beranda</h2>
+
+        {% if role == 'admin' %}
+            <h2>Halaman Admin-Daftar Peminjaman</h2>
+            <table>
+                <tr>
+                    <th>Nama</th>
+                    <th>NIM</th>
+                    <th>Jenis Alat</th>
+                    <th>Tanggal Peminjaman</th>
+                    <th>Status</th>
+                    <th>Tanggal Selesai</th>
+                    <th>Aksi</th>
+                </tr>
+                {% for peminjaman in peminjaman_list %}
+                    <tr>
+                        <td>{{ peminjaman['nama'] }}</td>
+                        <td>{{ peminjaman['nim'] }}</td>
+                        <td>{{ peminjaman['jenis_alat'] }}</td>
+                        <td>{{ peminjaman['tanggal_peminjaman'] }}</td>
+                        <td>{{ peminjaman['status'] }}</td>
+                        <td>{{ peminjaman['tanggal_selesai'] if peminjaman['tanggal_selesai'] else 'Belum selesai' }}</td>
+                        <td>
+                            {% if peminjaman['status'] != 'Selesai' %}
+                                <form action="{{ url_for('update_status', peminjaman_id=peminjaman['id'], status='Selesai') }}" method="post">
+                                    <button type="submit">Tandai Selesai</button>
+                                </form>
+                            {% else %}
+                                Selesai
+                            {% endif %}
+                        </td>                    
+                    </tr>
+                {% endfor %}
+            </table>
+        {% else %}
+            <div class="button-container">
+                <a href="{{ url_for('form_peminjaman') }}" class="button">Ajukan Peminjaman</a>
+                <a href="{{ url_for('riwayat_peminjaman') }}" class="button">Riwayat Peminjaman</a>
+                <a href="{{ url_for('logout') }}" class="button">Logout</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Footer berada di bawah konten utama -->
+    <footer>
+        <p>Mhd. Kadar Fitrawan - Teknik Biosistem</p>
+    </footer>
+</body>
+</html>
